@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2 class="mb-4">📊 Local Housing Dashboard</h2>
+
+  <div class="row">
+    <!-- 📋 View Tables -->
+    <div class="col-md-4 mb-4">
+      <div class="card shadow-sm text-center h-100">
+        <div class="card-body">
+          <h1>📋</h1>
+          <h5 class="card-title">View Tables</h5>
+          <p class="card-text">Browse all housing-related datasets in the database.</p>
+          <a href="{{ url_for('main.list_tables') }}" class="btn btn-primary">View</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🏙️ Explore Areas -->
+    <div class="col-md-4 mb-4">
+      <div class="card shadow-sm text-center h-100">
+        <div class="card-body">
+          <h1>🏙️</h1>
+          <h5 class="card-title">Explore Areas</h5>
+          <p class="card-text">See housing trends per area over the years.</p>
+          <a href="{{ url_for('main.list_areas') }}" class="btn btn-success">Explore</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ⬇️ Export CSV -->
+    <div class="col-md-4 mb-4">
+      <div class="card shadow-sm text-center h-100">
+        <div class="card-body">
+          <h1>⬇️</h1>
+          <h5 class="card-title">Export Data</h5>
+          <p class="card-text">Export datasets as CSV files (available on table view).</p>
+          <a href="{{ url_for('main.list_tables') }}" class="btn btn-secondary">Export</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="mt-5">
+  <p class="text-muted">Built with Flask & Bootstrap</p>
+{% endblock %}

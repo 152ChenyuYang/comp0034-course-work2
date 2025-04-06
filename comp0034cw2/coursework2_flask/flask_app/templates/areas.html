@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-4"><i class="bi bi-buildings-fill"></i> Local Housing Areas</h2>
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for area in areas %}
+      <div class="col">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title">{{ area['area_name'] }}</h5>
+            <p class="card-text">Code: {{ area['area_code'] }}</p>
+            <a href="{{ url_for('main.area_detail', area_code=area['area_code']) }}" class="btn btn-primary">Details</a>
+            <a href="{{ url_for('main.area_chart', area_code=area['area_code']) }}" class="btn btn-outline-success">View Chart</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

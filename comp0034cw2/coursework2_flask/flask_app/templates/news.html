@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2>🗞️ Latest Tech News</h2>
+    <ul class="list-group mt-3">
+        {% for story in stories %}
+        <li class="list-group-item">
+            <a href="{{ story.url }}" target="_blank">{{ story.title }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2>📑 Tables in Database</h2>
+  <div class="row">
+    {% for table in tables %}
+    <div class="col-md-4 mb-3">
+      <div class="card shadow-sm border rounded">
+        <div class="card-body">
+          <h5 class="card-title">{{ table.replace("_", " ") }}</h5>
+          <p class="card-text">View full data table</p>
+          <a href="{{ url_for('main.show_table', table_name=table) }}" class="btn btn-primary">View Table</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

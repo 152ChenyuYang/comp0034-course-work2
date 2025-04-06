@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2>📊 Housing & Waiting List - {{ area_name }}</h2>
+    
+    <canvas id="dualChart" height="130"></canvas>
+
+    <!-- Export button -->
+    <button class="btn btn-outline-secondary mt-3" onclick="downloadChart()">⬇ Download Chart</button>
+</div>
+
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const ctx = document.getElementById('dualChart').getContext('2d');
+    const chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: {{ years | tojson }},
+            datasets: [
+                {
+                    label: '🏠 Housing Units',
+                    data: {{ housing_units | tojson }},
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1,
+                    yAxisID: 'y1',
+                },
+                {
+                    label: '📋 Waiting List Households',
+                    data: {{ waiting_counts | tojson }},
+                    type: 'line',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    backgroundColor: 'rgba(255, 99, 132, 0.1)',
+                    fill: true,
+                    tension: 0.3,
+                    yAxisID: 'y2',
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
+            stacked: false,
+            plugins: {
+                legend: {
+                    position: 'top'
+                },
+                title: {
+                    display: true,
+                    text: 'Housing Units vs Waiting List Over the Years'
+                }
+            },
+            scales: {
+                y1: {
+                    type: 'linear',
+                    position: 'left',
+                    title: {
+                        display: true,
+                        text: 'Housing Units'
+                    }
+                },
+                y2: {
+                    type: 'linear',
+                    position: 'right',
+                    title: {
+                        display: true,
+                        text: 'Waiting Households'
+                    },
+                    grid: {
+                        drawOnChartArea: false
+                    }
+                }
+            }
+        }
+    });
+
+    // Download chart function
+    function downloadChart() {
+        const link = document.createElement('a');
+        link.download = '{{ area_name.replace(" ", "_") }}_chart.png';
+        link.href = document.getElementById('dualChart').toDataURL();
+        link.click();
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">
+        <i class="bi bi-table"></i> Table: {{ table_name.replace("_", " ") }}
+    </h2>
+    <div class="mb-3">
+        <a href="{{ url_for('main.export_csv', table_name=table_name) }}" class="btn btn-outline-success">
+            📤 Export CSV
+        </a>
+    </div>
+        
+
+    <!-- Search Box -->
+    <form method="get" action="{{ url_for('main.show_table', table_name=table_name) }}" class="row g-3 mb-3">
+        <div class="col-md-4">
+            <input type="text" class="form-control" name="search" placeholder="Search..." value="{{ request.args.get('search', '') }}">
+        </div>
+        <div class="col-md-auto">
+            <button type="submit" class="btn btn-outline-primary">Search</button>
+        </div>
+    </form>
+
+    {% if rows %}
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover">
+            <thead class="table-light">
+                <tr>
+                    {% for col in columns %}
+                    <th>{{ col }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in rows %}
+                <tr>
+                    {% for col in columns %}
+                    <td>{{ row[col] }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    <nav class="mt-4">
+        <ul class="pagination justify-content-center">
+            {% if page > 1 %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('main.show_table', table_name=table_name, page=page-1, search=request.args.get('search')) }}">&laquo; Prev</a>
+            </li>
+            {% endif %}
+
+            {% for p in range(page-2, page+3) %}
+            {% if 1 <= p <= total_pages %}
+            <li class="page-item {% if p == page %}active{% endif %}">
+                <a class="page-link" href="{{ url_for('main.show_table', table_name=table_name, page=p, search=request.args.get('search')) }}">{{ p }}</a>
+            </li>
+            {% endif %}
+            {% endfor %}
+
+            {% if page < total_pages %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('main.show_table', table_name=table_name, page=page+1, search=request.args.get('search')) }}">Next &raquo;</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% else %}
+    <div class="alert alert-warning">No data found for this table.</div>
+    {% endif %}
+</div>
+{% endblock %}

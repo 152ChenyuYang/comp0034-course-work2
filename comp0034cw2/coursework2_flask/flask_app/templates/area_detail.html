@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>🏙️ Details for {{ area_name }}</h2>
+
+    <h4 class="mt-4">🏠 Affordable Housing Data</h4>
+    <table class="table table-striped table-bordered">
+        <thead class="table-light">
+            <tr>
+                <th>Year</th>
+                <th>Housing Units</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in housing_data %}
+            <tr>
+                <td>{{ row.year }}</td>
+                <td>{{ row.housing_units }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h4 class="mt-5">📋 Waiting List Data</h4>
+    <table class="table table-striped table-bordered">
+        <thead class="table-light">
+            <tr>
+                <th>Year</th>
+                <th>Households Count</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in waiting_data %}
+            <tr>
+                <td>{{ row.year }}</td>
+                <td>{{ row.households_count }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ url_for('main.list_areas') }}" class="btn btn-secondary mt-4">⬅ Back to Areas</a>
+    <a href="{{ url_for('main.area_chart', area_code=area_code) }}" class="btn btn-outline-primary mt-4">📊 View Chart</a>
+    <a href="{{ url_for('main.export_area_csv', area_code=area_code) }}" class="btn btn-success mt-4">⬇️ Export CSV</a>
+</div>
+{% endblock %}
